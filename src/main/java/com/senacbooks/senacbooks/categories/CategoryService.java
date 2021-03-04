@@ -1,5 +1,6 @@
 package com.senacbooks.senacbooks.categories;
 
+import com.senacbooks.senacbooks.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id) {
         Optional<CategoryEntity> obj = repository.findById(id);
-        CategoryEntity entity = obj.orElseThrow();
+        CategoryEntity entity = obj.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
         return new CategoryDTO(entity);
     }
 
