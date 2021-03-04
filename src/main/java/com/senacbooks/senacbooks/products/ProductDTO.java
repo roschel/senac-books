@@ -103,6 +103,8 @@ public class ProductDTO implements Serializable {
         this.publisher = entity.getPublisher();
         this.pages = entity.getPages();
         this.size = entity.getSize();
+        this.year= entity.getYear();
+        this.edition = entity.getEdition();
         entity.getImages().forEach(img -> this.images.add(new ImageDTO(img)));
         entity.getCategories().forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }

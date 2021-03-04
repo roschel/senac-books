@@ -7,9 +7,12 @@ import com.senacbooks.senacbooks.products.images.ImageDTO;
 import com.senacbooks.senacbooks.products.images.ImageEntity;
 import com.senacbooks.senacbooks.products.images.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,10 +30,11 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public List<ProductDTO> findAll(){
-        List<ProductEntity> list = repository.findAll();
+    public Page<ProductDTO> findAllPaged(Long categoryId, String title, PageRequest pageRequest){
+        List<CategoryEntity> categories = (categoryId == 0)? null : Arrays.asList(categoryRepository.getOne(categoryId));
+        Page<ProductEntity> list = repository.find(categories,title, pageRequest);
 
-        return list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
+        return list.map(x -> new ProductDTO(x));
     }
 
     @Transactional(readOnly = true)
@@ -83,6 +87,8 @@ public class ProductService {
         entity.setPublisher(dto.getPublisher());
         entity.setPages(dto.getPages());
         entity.setSize(dto.getSize());
+        entity.setYear(dto.getYear());
+        entity.setEdition(dto.getEdition());
 
         entity.getImages().clear();
         for (ImageDTO imageDTO : dto.getImages()) {
