@@ -5,6 +5,7 @@ import com.senacbooks.senacbooks.products.images.ImageEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -33,6 +34,12 @@ public class ProductEntity implements Serializable {
     private String size;
     private Integer year;
     private String edition;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<ImageEntity> images = new HashSet<>();
@@ -175,6 +182,24 @@ public class ProductEntity implements Serializable {
 
     public void setEdition(String edition) {
         this.edition = edition;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updatedAt = Instant.now();
     }
 
     public Set<ImageEntity> getImages() {
