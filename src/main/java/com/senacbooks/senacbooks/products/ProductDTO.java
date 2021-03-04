@@ -1,6 +1,7 @@
 package com.senacbooks.senacbooks.products;
 
 import com.senacbooks.senacbooks.categories.CategoryDTO;
+import com.senacbooks.senacbooks.categories.CategoryEntity;
 import com.senacbooks.senacbooks.products.images.ImageDTO;
 import com.senacbooks.senacbooks.products.images.ImageEntity;
 
@@ -47,9 +48,15 @@ public class ProductDTO implements Serializable {
     @NotBlank(message = "Campo obrigatório")
     private String size;
 
-    Set<ImageDTO> images = new HashSet<>();
+    @NotBlank(message = "Campo obrigatório")
+    private Integer year;
 
-    Set<CategoryDTO> categories = new HashSet<>();
+    @NotBlank(message = "Campo obrigatório")
+    private String edition;
+
+    private Set<ImageDTO> images = new HashSet<>();
+
+    private Set<CategoryDTO> categories = new HashSet<>();
 
     public ProductDTO() {
     }
@@ -65,7 +72,9 @@ public class ProductDTO implements Serializable {
             String author,
             String publisher,
             Integer pages,
-            String size
+            String size,
+            Integer year,
+            String edition
     ) {
         this.id = id;
         this.title = title;
@@ -78,6 +87,8 @@ public class ProductDTO implements Serializable {
         this.publisher = publisher;
         this.pages = pages;
         this.size = size;
+        this.year=year;
+        this.edition = edition;
     }
 
     public ProductDTO(ProductEntity entity){
@@ -94,6 +105,12 @@ public class ProductDTO implements Serializable {
         this.size = entity.getSize();
         entity.getImages().forEach(img -> this.images.add(new ImageDTO(img)));
         entity.getCategories().forEach(cat -> this.categories.add(new CategoryDTO(cat)));
+    }
+
+    public ProductDTO(ProductEntity entity, Set<ImageEntity> images, Set<CategoryEntity> categories){
+        this(entity);
+        images.forEach(img -> this.images.add(new ImageDTO(img)));
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
     public Long getId() {
@@ -184,11 +201,35 @@ public class ProductDTO implements Serializable {
         this.size = size;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
     public Set<ImageDTO> getImages() {
         return images;
     }
 
+    public void setImages(Set<ImageDTO> images) {
+        this.images = images;
+    }
+
     public Set<CategoryDTO> getCategories() {
         return categories;
+    }
+
+    public void setCategories(Set<CategoryDTO> categories) {
+        this.categories = categories;
     }
 }

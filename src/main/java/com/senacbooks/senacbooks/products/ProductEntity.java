@@ -31,6 +31,8 @@ public class ProductEntity implements Serializable {
     private String publisher;
     private Integer pages;
     private String size;
+    private Integer year;
+    private String edition;
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private Set<ImageEntity> images = new HashSet<>();
@@ -52,7 +54,9 @@ public class ProductEntity implements Serializable {
             String author,
             String publisher,
             Integer pages,
-            String size
+            String size,
+            Integer year,
+            String edition
     ) {
         this.id = id;
         this.title = title;
@@ -65,6 +69,8 @@ public class ProductEntity implements Serializable {
         this.publisher = publisher;
         this.pages = pages;
         this.size = size;
+        this.year=year;
+        this.edition = edition;
     }
 
     public Long getId() {
@@ -153,6 +159,22 @@ public class ProductEntity implements Serializable {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
     }
 
     public Set<ImageEntity> getImages() {
