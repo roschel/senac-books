@@ -23,8 +23,8 @@ public class ImageResource {
     }
 
     @PostMapping(value = "/image")
-    public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file) {
-        UriDTO dto = service.uploadFile(file);
+    public ResponseEntity<UriDTO> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("principal") Boolean prinicipal) {
+        UriDTO dto = service.uploadFile(file, prinicipal);
         return ResponseEntity.ok().body(dto);
     }
 }

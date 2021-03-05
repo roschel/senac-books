@@ -148,8 +148,8 @@ insert into tb_product (title, description, quantity, status, rating, price, aut
 insert into tb_product (title, description, quantity, status, rating, price, author, publisher, pages, size, year, edition, created_at) values('Código Limpo: Habilidades Práticas do Agile Software Capa comum – 8 setembro 2009', '', 50, true, 4.8,71.99,'Robert C. Martin','Alta Books; 1ª edição (8 setembro 2009)', 456, '24 x 17 x 2.2 cm', 2009, '1 edição', NOW())
 insert into tb_product (title, description, quantity, status, rating, price, author, publisher, pages, size, year, edition, created_at) values('Código Limpo: Habilidades Práticas do Agile Software Capa comum – 8 setembro 2009', '', 50, true, 4.8,71.99,'Robert C. Martin','Alta Books; 1ª edição (8 setembro 2009)', 456, '24 x 17 x 2.2 cm', 2009, '1 edição', NOW())
 
-insert into tb_image (img_url, product_id) values ('https://images.unsplash.com/photo-1471970471555-19d4b113e9ed?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 1)
-insert into tb_image (img_url, product_id) values ('https://images.unsplash.com/photo-1471970471555-19d4b113e9ed?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', 2)
+insert into tb_image (img_url, principal, product_id) values ('https://images.unsplash.com/photo-1471970471555-19d4b113e9ed?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', true, 1)
+insert into tb_image (img_url, principal, product_id) values ('https://images.unsplash.com/photo-1471970471555-19d4b113e9ed?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', true, 2)
 
 insert into tb_product_category (product_id, category_id) values (1,1)
 insert into tb_product_category (product_id, category_id) values (2,2)

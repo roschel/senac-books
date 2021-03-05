@@ -16,6 +16,7 @@ public class ImageEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String imgUrl;
+    private Boolean principal;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -24,9 +25,10 @@ public class ImageEntity implements Serializable {
     public ImageEntity() {
     }
 
-    public ImageEntity(Long id, String imgUrl) {
+    public ImageEntity(Long id, String imgUrl, Boolean principal) {
         this.id = id;
         this.imgUrl = imgUrl;
+        this.principal = principal;
     }
 
     public Long getId() {
@@ -43,6 +45,14 @@ public class ImageEntity implements Serializable {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Boolean getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(Boolean principal) {
+        this.principal = principal;
     }
 
     public ProductEntity getProduct() {
