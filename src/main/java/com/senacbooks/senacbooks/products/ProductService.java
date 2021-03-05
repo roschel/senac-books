@@ -3,9 +3,11 @@ package com.senacbooks.senacbooks.products;
 import com.senacbooks.senacbooks.categories.CategoryDTO;
 import com.senacbooks.senacbooks.categories.CategoryEntity;
 import com.senacbooks.senacbooks.categories.CategoryRepository;
+import com.senacbooks.senacbooks.exceptions.EntityNotFoundException;
 import com.senacbooks.senacbooks.products.images.ImageDTO;
 import com.senacbooks.senacbooks.products.images.ImageEntity;
 import com.senacbooks.senacbooks.products.images.ImageRepository;
+import com.senacbooks.senacbooks.products.images.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,14 +29,17 @@ public class ProductService {
     private ImageRepository imageRepository;
 
     @Autowired
+    private ImageService imageService;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Long categoryId, String title, PageRequest pageRequest){
         List<CategoryEntity> categories = (categoryId == 0)? null : Arrays.asList(categoryRepository.getOne(categoryId));
-        Page<ProductEntity> list = repository.find(categories,title, pageRequest);
-
-        return list.map(x -> new ProductDTO(x));
+        Page<ProductEntity> page = repository.find(categories,title, pageRequest);
+        repository.find(page.toList());
+        return page.map(x -> new ProductDTO(x, x.getImages(), x.getCategories()));
     }
 
     @Transactional(readOnly = true)
@@ -50,6 +55,10 @@ public class ProductService {
         ProductEntity entity = new ProductEntity();
         copyDTOToEntity(dto, entity);
         entity = repository.save(entity);
+
+        for (ImageEntity image: entity.getImages()) {
+            addImageToProduct(entity.getId(), image.getId());
+        }
 
         return new ProductDTO(entity);
     }
@@ -70,7 +79,7 @@ public class ProductService {
         if (entity.getStatus()) {
             entity.setStatus(false);
             entity = repository.save(entity);
-            retorno = "Categoria " + entity.getTitle() + " deletado com sucesso.";
+            retorno = "Livro " + entity.getTitle() + " deletado com sucesso.";
         }
         return retorno;
     }
@@ -101,5 +110,16 @@ public class ProductService {
             CategoryEntity category = categoryRepository.getOne(categoryDTO.getId());
             entity.getCategories().add(category);
         }
+    }
+
+    public ProductEntity getproduct(Long id){
+        return repository.findById(id).orElseThrow();
+    }
+
+    public void addImageToProduct(Long productId, Long imageId){
+        ProductEntity productEntity = getproduct(productId);
+        ImageEntity imageEntity = imageService.getImage(imageId);
+
+        imageEntity.setProduct(productEntity);
     }
 }

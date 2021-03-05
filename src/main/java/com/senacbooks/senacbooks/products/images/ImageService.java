@@ -27,7 +27,18 @@ public class ImageService {
     }
 
     public UriDTO uploadFile(MultipartFile file) {
-        URL url = s3Service.uploadFile(file);
-        return new UriDTO(url.toString());
+//        URL url = s3Service.uploadFile(file);
+        String url="salvanso imagem";
+        ImageEntity img = new ImageEntity();
+//        img.setImgUrl(url.getPath());
+        img.setImgUrl(url);
+//        img.setProduct(productId);
+        repository.save(img);
+
+        return new UriDTO(url);
+    }
+
+    public ImageEntity getImage(Long imageId) {
+        return repository.findById(imageId).orElseThrow();
     }
 }

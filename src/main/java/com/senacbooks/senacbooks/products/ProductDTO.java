@@ -6,9 +6,12 @@ import com.senacbooks.senacbooks.products.images.ImageDTO;
 import com.senacbooks.senacbooks.products.images.ImageEntity;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ProductDTO implements Serializable {
@@ -25,15 +28,15 @@ public class ProductDTO implements Serializable {
     @NotBlank(message = "Campo obrigatório")
     private String description;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Positive(message = "valor deve ser maior que zero")
     private Integer quantity;
 
     private Boolean status;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Positive(message = "valor deve ser maior que zero")
     private Double rating;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Positive(message = "valor deve ser maior que zero")
     private Double price;
 
     @NotBlank(message = "Campo obrigatório")
@@ -42,13 +45,13 @@ public class ProductDTO implements Serializable {
     @NotBlank(message = "Campo obrigatório")
     private String publisher;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Positive(message = "valor deve ser maior que zero")
     private Integer pages;
 
     @NotBlank(message = "Campo obrigatório")
     private String size;
 
-    @NotBlank(message = "Campo obrigatório")
+    @Positive(message = "valor deve ser maior que zero")
     private Integer year;
 
     @NotBlank(message = "Campo obrigatório")
@@ -111,8 +114,8 @@ public class ProductDTO implements Serializable {
 
     public ProductDTO(ProductEntity entity, Set<ImageEntity> images, Set<CategoryEntity> categories){
         this(entity);
-        images.forEach(img -> this.images.add(new ImageDTO(img)));
-        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
+//        images.forEach(img -> this.images.add(new ImageDTO(img)));
+//        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
     public Long getId() {

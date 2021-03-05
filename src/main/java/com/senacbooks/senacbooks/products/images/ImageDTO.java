@@ -17,7 +17,7 @@ public class ImageDTO implements Serializable {
     private Long id;
     private String imgUrl;
 
-    private Set<ProductDTO> products = new HashSet<>();
+    private ProductDTO product;
 
     public ImageDTO() {
     }
@@ -47,10 +47,6 @@ public class ImageDTO implements Serializable {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-
-//    public Set<ProductDTO> getProducts() {
-//        return products;
-//    }
 
     @Override
     public boolean equals(Object o) {

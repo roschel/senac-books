@@ -39,11 +39,16 @@ public class ProductEntity implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "product")
-    private List<ImageEntity> images = new ArrayList<>();
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<ImageEntity> images = new HashSet<>();
 
-    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    Set<CategoryEntity> categories = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name="tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"), // chave estrangeira relacionada a classe onde estamos, ou seja, será o produto.(A própria classe)
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<CategoryEntity> categories = new HashSet<>();
 
     public ProductEntity() {
     }
@@ -200,7 +205,7 @@ public class ProductEntity implements Serializable {
         updatedAt = Instant.now();
     }
 
-    public List<ImageEntity> getImages() {
+    public Set<ImageEntity> getImages() {
         return images;
     }
 
