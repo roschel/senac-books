@@ -4,9 +4,7 @@ import com.senacbooks.senacbooks.products.ProductEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_image")
@@ -19,13 +17,9 @@ public class ImageEntity implements Serializable {
     private Long id;
     private String imgUrl;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name="tb_image_product",
-            joinColumns = @JoinColumn(name = "image_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<ProductEntity> products = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
     public ImageEntity() {
     }
@@ -51,9 +45,13 @@ public class ImageEntity implements Serializable {
         this.imgUrl = imgUrl;
     }
 
-//    public Set<ProductEntity> getProducts() {
-//        return products;
-//    }
+    public ProductEntity getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductEntity product) {
+        this.product = product;
+    }
 
     @Override
     public boolean equals(Object o) {

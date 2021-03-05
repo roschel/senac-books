@@ -6,9 +6,7 @@ import com.senacbooks.senacbooks.products.images.ImageEntity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_product")
@@ -41,11 +39,11 @@ public class ProductEntity implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 
-    @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    private Set<ImageEntity> images = new HashSet<>();
+    @OneToMany(mappedBy = "product")
+    private List<ImageEntity> images = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-    private Set<CategoryEntity> categories = new HashSet<>();
+    Set<CategoryEntity> categories = new HashSet<>();
 
     public ProductEntity() {
     }
@@ -202,7 +200,7 @@ public class ProductEntity implements Serializable {
         updatedAt = Instant.now();
     }
 
-    public Set<ImageEntity> getImages() {
+    public List<ImageEntity> getImages() {
         return images;
     }
 
