@@ -21,7 +21,7 @@ public class CategoryResource {
     @GetMapping
     public ResponseEntity<Page<CategoryDTO>> findAllPaged(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
+            @RequestParam(value = "linesPerPage", defaultValue = "40") Integer linesPerPage,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
             @RequestParam(value = "orderBy", defaultValue = "id") String orderBy
     ){

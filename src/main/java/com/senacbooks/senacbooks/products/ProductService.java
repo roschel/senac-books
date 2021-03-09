@@ -3,7 +3,6 @@ package com.senacbooks.senacbooks.products;
 import com.senacbooks.senacbooks.categories.CategoryDTO;
 import com.senacbooks.senacbooks.categories.CategoryEntity;
 import com.senacbooks.senacbooks.categories.CategoryRepository;
-import com.senacbooks.senacbooks.exceptions.EntityNotFoundException;
 import com.senacbooks.senacbooks.products.images.ImageDTO;
 import com.senacbooks.senacbooks.products.images.ImageEntity;
 import com.senacbooks.senacbooks.products.images.ImageRepository;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -38,7 +36,7 @@ public class ProductService {
     public Page<ProductDTO> findAllPaged(Long categoryId, String title, PageRequest pageRequest){
         List<CategoryEntity> categories = (categoryId == 0)? null : Arrays.asList(categoryRepository.getOne(categoryId));
         Page<ProductEntity> page = repository.find(categories,title, pageRequest);
-        repository.find(page.toList());
+//        repository.find(page.toList());
         return page.map(x -> new ProductDTO(x, x.getImages(), x.getCategories()));
     }
 
@@ -75,11 +73,15 @@ public class ProductService {
     public String delete(Long id) {
         Optional<ProductEntity> obj = repository.findById(id);
         ProductEntity entity = obj.orElseThrow();
-        String retorno = "Livro " + entity.getTitle() + " já se encontra deletada.";
+        String retorno;
         if (entity.getStatus()) {
             entity.setStatus(false);
             entity = repository.save(entity);
-            retorno = "Livro " + entity.getTitle() + " deletado com sucesso.";
+            retorno = "Livro " + entity.getTitle() + " inativado com sucesso.";
+        }else{
+            entity.setStatus(true);
+            entity = repository.save(entity);
+            retorno = "Livro " + entity.getTitle() + " reativado com sucesso.";
         }
         return retorno;
     }

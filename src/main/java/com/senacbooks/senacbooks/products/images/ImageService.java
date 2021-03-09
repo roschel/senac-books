@@ -27,16 +27,13 @@ public class ImageService {
     }
 
     public UriDTO uploadFile(MultipartFile file, Boolean principal) {
-//        URL url = s3Service.uploadFile(file);
-        String url="salvanso imagem";
+        URL url = s3Service.uploadFile(file);
         ImageEntity img = new ImageEntity();
-//        img.setImgUrl(url.getPath());
-        img.setImgUrl(url);
+        img.setImgUrl(url.toString());
         img.setPrincipal(principal);
-//        img.setProduct(productId);
         img = repository.save(img);
 
-        return new UriDTO(url, img.getPrincipal());
+        return new UriDTO(url.toString(), img.getPrincipal());
     }
 
     public ImageEntity getImage(Long imageId) {

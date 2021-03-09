@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
             "(LOWER(obj.title) LIKE LOWER(CONCAT('%',:title,'%')) )")
     Page<ProductEntity> find(List<CategoryEntity> categories, String title, Pageable pageable);
 
-    @Query("SELECT obj FROM ProductEntity obj JOIN FETCH obj.categories WHERE obj IN :products")
-    List<ProductEntity> find(List<ProductEntity> products);
+//    @Query("SELECT obj FROM ProductEntity obj JOIN FETCH obj.categories WHERE obj IN :products")
+//    List<ProductEntity> find(List<ProductEntity> products);
 
 }
